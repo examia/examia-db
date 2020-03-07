@@ -46,7 +46,7 @@ const UserSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 // Configurar uniqueValidator para el Schema
-UserSchema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator)
 
 // Obtener un usuario por su email
 UserSchema.statics.findByEmail = function (email) {
