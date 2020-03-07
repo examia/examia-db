@@ -9,6 +9,7 @@
   "author": "Iván Martínez",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^5.9.3"
+    "mongoose": "^5.9.3",
+    "mongoose-unique-validator": "^2.0.3"
   }
 }
