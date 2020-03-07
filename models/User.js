@@ -1,5 +1,8 @@
 // Importar dependencias
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
+
+// Importar configuración
 const config = require('./config')
 
 // Crear modelo User
@@ -14,7 +17,8 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   isEmailVerified: {
     type: Boolean,
@@ -40,6 +44,9 @@ const UserSchema = new mongoose.Schema({
     default: []
   }
 }, { timestamps: true })
+
+// Configurar uniqueValidator para el Schema
+UserSchema.plugin(uniqueValidator);
 
 // Obtener un usuario por su email
 UserSchema.statics.findByEmail = function (email) {

@@ -20,6 +20,9 @@ async function connect(database_url) {
   // Conectarse a la base de datos
   await mongoose.connect(config.databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 
+  // Configurar mongoose
+  await mongoose.set('useCreateIndex', true);
+
   // Regresar los modelos
   return {
     AnswerModel,
