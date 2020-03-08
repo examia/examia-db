@@ -11,5 +11,19 @@
   "dependencies": {
     "mongoose": "^5.9.3",
     "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "jest": "^25.1.0"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "roots": [
+      "./tests"
+    ]
   }
 }
