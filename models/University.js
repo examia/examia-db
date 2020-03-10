@@ -44,9 +44,19 @@ UniversitySchema.statics.addField = async function (universityId, fieldId) {
   }
 }
 
-// Obtener todas las universidades
-UniversitySchema.statics.getUniversities = async function () {
+// Obtener todas las universidades activas
+UniversitySchema.statics.getActiveUniversities = async function () {
   return University.find({ isActive: true })
+}
+
+// Obtener todas las universidades inactivas
+UniversitySchema.statics.getInactiveUniversities = async function () {
+  return University.find({ isActive: false })
+}
+
+// Modificar el estado de actividad de una universidad
+UniversitySchema.statics.changeActiveStatus = async function (universityId, isActive) {
+  return University.findOneAndUpdate({ _id: universityId }, { isActive })
 }
 
 // Exportar modelo

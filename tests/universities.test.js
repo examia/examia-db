@@ -2,12 +2,15 @@
 const mongoose = require('mongoose')
 const stubs = require('./stubs')
 const config = require('./config')
+const uniqueValidator = require('mongoose-unique-validator')
 const setupDatabase = require('./setupDatabase')
 const eraseCollections = require('./eraseCollections')
 
 describe('Universidades', () => {
   // Variables globales que se usarán para las pruebas
   let UniversityModel
+  let fakeUniversity
+  let createdUniversity
 
   // Inicializar la base de datos antes de empezar las pruebas
   beforeAll(async () => {
@@ -23,15 +26,49 @@ describe('Universidades', () => {
     await mongoose.connection.close()
   })
 
-  // Prueba para crear una universidad
   test('Crear una universidad', async () => {
-    const fakeUniversity = stubs.generateFakeUniversity()
+    fakeUniversity = stubs.generateFakeUniversity()
 
     // Guardar universidad en la base de datos
-    const savedUniversity = new UniversityModel(fakeUniversity)
-    await savedUniversity.save()
+    createdUniversity = new UniversityModel(fakeUniversity)
+    await createdUniversity.save()
 
-    expect(savedUniversity.title).toEqual(fakeUniversity.title)
-    expect(Array.from(savedUniversity.fields)).toEqual([])
+    expect(createdUniversity.title).toEqual(fakeUniversity.title)
+    expect(Array.from(createdUniversity.fields)).toEqual([])
+  })
+
+  test('Crear una universidad ya existente', async () => {
+    try {
+      // Guardar universidad en la base de datos
+      const university = new UniversityModel(fakeUniversity)
+      await university.save()
+    } catch (err) {
+      expect(err.name).toEqual('ValidationError')
+    }
+  })
+
+  test('Obtener universidades activas - 1', async () => {
+    const universities = await UniversityModel.getActiveUniversities()
+    expect(universities.length).toEqual(1)
+  })
+
+  test('Modificar el estado de actividad de una universidad', async () => {
+    const isActive = false
+    // Actualizar universidad
+    await UniversityModel.changeActiveStatus(createdUniversity._id, isActive)
+    // Obtener universidad
+    const updatedUniversity = await UniversityModel.findById(createdUniversity._id)
+
+    expect(updatedUniversity.isActive).toEqual(isActive)
+  })
+
+  test('Obtener universidades activas - 0', async () => {
+    const universities = await UniversityModel.getActiveUniversities()
+    expect(universities.length).toEqual(0)
+  })
+
+  test('Obtener universidades inactivas - 1', async () => {
+    const universities = await UniversityModel.getInactiveUniversities()
+    expect(universities.length).toEqual(1)
   })
 })
