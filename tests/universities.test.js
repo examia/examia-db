@@ -32,6 +32,6 @@ describe('Universidades', () => {
     await savedUniversity.save()
 
     expect(savedUniversity.title).toEqual(fakeUniversity.title)
-    expect(savedUniversity.fields).toEqual([])
+    expect(Array.from(savedUniversity.fields)).toEqual([])
   })
 })
