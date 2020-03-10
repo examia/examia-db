@@ -25,7 +25,7 @@ const UniversitySchema = new mongoose.Schema({
 }, { timestamps: true })
 
 // Configurar uniqueValidator para el Schema
-UniversitySchema.plugin(UniversitySchema)
+UniversitySchema.plugin(uniqueValidator)
 
 // Agregar una área a una universidad
 UniversitySchema.statics.addField = async function (universityId, fieldId) {

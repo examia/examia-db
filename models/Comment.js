@@ -10,14 +10,14 @@ const CommentSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Types.ObjectId,
-    ref: config.schemasNames.user
+    ref: config.schemasNames.user,
     required: true
   },
   commentAbove: {
     type: mongoose.Types.ObjectId,
     ref: config.schemasNames.comment,
     required: true
-  }
+  },
   upVotes: {
     type: Number,
     required: true,

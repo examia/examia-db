@@ -14,11 +14,11 @@ const UserModel = require('./models/User')
 
 /**
  * Conectarse a la base de datos y obtener los modelos
- * @param {String} database_url
+ * @param {String} databaseUrl
  */
-async function connect(database_url) {
+module.exports = async function connect(databaseUrl) {
   // Conectarse a la base de datos
-  await mongoose.connect(config.databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  await mongoose.connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 
   // Configurar mongoose
   await mongoose.set('useCreateIndex', true);

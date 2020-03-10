@@ -10,7 +10,7 @@ const ExamSessionSchema = new mongoose.Schema({
   },
   questions: {
     type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.sessionQuestion }],
-    required: true
+    required: true,
     default: []
   },
   finished: {
