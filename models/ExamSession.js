@@ -1,22 +1,22 @@
 // Importar dependencias
-const mongoose = require('mongoose')
-const config = require('./config')
+const mongoose = require('mongoose');
+const config = require('./config');
 
 // Crear modelo
 const ExamSessionSchema = new mongoose.Schema({
   examId: {
     type: mongoose.Types.ObjectId,
-    required: true
+    required: true,
   },
   questions: {
     type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.sessionQuestion }],
     required: true,
-    default: []
+    default: [],
   },
   finished: {
     type: Boolean,
     required: true,
-    default: false
+    default: false,
   },
   startedAt: {
     type: Date,
@@ -25,9 +25,9 @@ const ExamSessionSchema = new mongoose.Schema({
   finishedAt: {
     type: Date,
     required: true,
-  }
-}, { timestamps: true })
+  },
+}, { timestamps: true });
 
 // Exportar modelo
-const ExamSession = mongoose.model(config.schemasNames.examSession, ExamSessionSchema)
-module.exports = ExamSession
+const ExamSession = mongoose.model(config.schemasNames.examSession, ExamSessionSchema);
+module.exports = ExamSession;

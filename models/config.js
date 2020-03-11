@@ -9,6 +9,6 @@ module.exports = {
     examSession: 'ExamSession',
     exam: 'Exam',
     comment: 'Comment',
-    answer: 'Answer'
-  }
-}
+    answer: 'Answer',
+  },
+};

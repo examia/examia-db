@@ -1,12 +1,12 @@
 // Importar dependencias
-const faker = require('faker')
+const faker = require('faker');
 
 function generateFakeUniversity() {
   return {
-    title: faker.random.arrayElement(['UNAM', 'Politécnico Nacional'])
-  }
+    title: faker.random.arrayElement(['UNAM', 'Politécnico Nacional']),
+  };
 }
 
 module.exports = {
-  generateFakeUniversity
-}
+  generateFakeUniversity,
+};

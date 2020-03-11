@@ -1,74 +1,75 @@
+/* eslint-disable no-unused-vars */
 // Importar dependencas
-const mongoose = require('mongoose')
-const stubs = require('./stubs')
-const config = require('./config')
-const uniqueValidator = require('mongoose-unique-validator')
-const setupDatabase = require('./setupDatabase')
-const eraseCollections = require('./eraseCollections')
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const stubs = require('./stubs');
+const config = require('./config');
+const setupDatabase = require('./setupDatabase');
+const eraseCollections = require('./eraseCollections');
 
 describe('Universidades', () => {
   // Variables globales que se usarán para las pruebas
-  let UniversityModel
-  let fakeUniversity
-  let createdUniversity
+  let UniversityModel;
+  let fakeUniversity;
+  let createdUniversity;
 
   // Inicializar la base de datos antes de empezar las pruebas
   beforeAll(async () => {
-    const database = await setupDatabase(config.databaseUrl)
-    UniversityModel = database.UniversityModel
-  })
+    const database = await setupDatabase(config.databaseUrl);
+    UniversityModel = database.UniversityModel;
+  });
 
   // Limpiar base de datos después de las pruebas
   afterAll(async () => {
     // Limpiar colleciones
-    await eraseCollections()
+    await eraseCollections();
     // Cerrar sesión de mongoose
-    await mongoose.connection.close()
-  })
+    await mongoose.connection.close();
+  });
 
   test('Crear una universidad', async () => {
-    fakeUniversity = stubs.generateFakeUniversity()
+    fakeUniversity = stubs.generateFakeUniversity();
 
     // Guardar universidad en la base de datos
-    createdUniversity = new UniversityModel(fakeUniversity)
-    await createdUniversity.save()
+    createdUniversity = new UniversityModel(fakeUniversity);
+    await createdUniversity.save();
 
-    expect(createdUniversity.title).toEqual(fakeUniversity.title)
-    expect(Array.from(createdUniversity.fields)).toEqual([])
-  })
+    expect(createdUniversity.title).toEqual(fakeUniversity.title);
+    expect(Array.from(createdUniversity.fields)).toEqual([]);
+  });
 
   test('Crear una universidad ya existente', async () => {
     try {
       // Guardar universidad en la base de datos
-      const university = new UniversityModel(fakeUniversity)
-      await university.save()
+      const university = new UniversityModel(fakeUniversity);
+      await university.save();
     } catch (err) {
-      expect(err.name).toEqual('ValidationError')
+      expect(err.name).toEqual('ValidationError');
     }
-  })
+  });
 
   test('Obtener universidades activas - 1', async () => {
-    const universities = await UniversityModel.getActiveUniversities()
-    expect(universities.length).toEqual(1)
-  })
+    const universities = await UniversityModel.getActiveUniversities();
+    expect(universities.length).toEqual(1);
+  });
 
   test('Modificar el estado de actividad de una universidad', async () => {
-    const isActive = false
+    const isActive = false;
     // Actualizar universidad
-    await UniversityModel.changeActiveStatus(createdUniversity._id, isActive)
+    await UniversityModel.changeActiveStatus(createdUniversity._id, isActive);
     // Obtener universidad
-    const updatedUniversity = await UniversityModel.findById(createdUniversity._id)
+    const updatedUniversity = await UniversityModel.findById(createdUniversity._id);
 
-    expect(updatedUniversity.isActive).toEqual(isActive)
-  })
+    expect(updatedUniversity.isActive).toEqual(isActive);
+  });
 
   test('Obtener universidades activas - 0', async () => {
-    const universities = await UniversityModel.getActiveUniversities()
-    expect(universities.length).toEqual(0)
-  })
+    const universities = await UniversityModel.getActiveUniversities();
+    expect(universities.length).toEqual(0);
+  });
 
   test('Obtener universidades inactivas - 1', async () => {
-    const universities = await UniversityModel.getInactiveUniversities()
-    expect(universities.length).toEqual(1)
-  })
-})
+    const universities = await UniversityModel.getInactiveUniversities();
+    expect(universities.length).toEqual(1);
+  });
+});

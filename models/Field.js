@@ -1,20 +1,20 @@
 // Importar dependencias
-const mongoose = require('mongoose')
-const config = require('./config')
+const mongoose = require('mongoose');
+const config = require('./config');
 
-// Crear modelo 
+// Crear modelo
 const FieldSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   exams: {
     type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.exam }],
     required: true,
-    default: []
-  }
-}, { timestamps: true })
+    default: [],
+  },
+}, { timestamps: true });
 
 // Exportar modelo
-const Field = mongoose.model(config.schemasNames.field, FieldSchema)
-module.exports = Field
+const Field = mongoose.model(config.schemasNames.field, FieldSchema);
+module.exports = Field;
