@@ -5,7 +5,15 @@ const uniqueValidator = require('mongoose-unique-validator')
 // Importar configuración
 const config = require('./config')
 
-// Crear modelo University
+/**
+ * Genera el modelo University
+ * @class UniversityModel
+ * @mixes {UniversitySchema.statics}
+ * @param {Object} - Objeto con todas las propiedades
+ * @property {string} title - El nombre de la universidad
+ * @property {Array.<mongoose.Types.ObjectId>} fields - Las áreas de la universidad
+ * @property {boolean} isActive - Indica si la universidad está activa y puede ser usada
+ */
 const UniversitySchema = new mongoose.Schema({
   title: {
     type: String,
@@ -24,10 +32,17 @@ const UniversitySchema = new mongoose.Schema({
   }
 }, { timestamps: true })
 
+/** @mixin */
+UniversitySchema.statics
+
 // Configurar uniqueValidator para el Schema
 UniversitySchema.plugin(uniqueValidator)
 
-// Agregar una área a una universidad
+/**
+ * Agrega una área a una universidad
+ * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
+ * @param {mongoose.Types.ObjectId} fieldId  - Id del área
+ */
 UniversitySchema.statics.addField = async function (universityId, fieldId) {
   // Obtener unviersidad y sus áreas
   const university = await University.findById(universityId)
@@ -44,17 +59,25 @@ UniversitySchema.statics.addField = async function (universityId, fieldId) {
   }
 }
 
-// Obtener todas las universidades activas
+/**
+ *  Obtiene todas las universidades activas
+ */
 UniversitySchema.statics.getActiveUniversities = async function () {
   return University.find({ isActive: true })
 }
 
-// Obtener todas las universidades inactivas
+/**
+ *  Obtiene todas las universidades inactivas
+ */
 UniversitySchema.statics.getInactiveUniversities = async function () {
   return University.find({ isActive: false })
 }
 
-// Modificar el estado de actividad de una universidad
+/**
+ * Modifica el estado de actividad de una universidad
+ * @param {mongoose.Types.ObjectId} universityId - Id de la universidad que se desea modificar
+ * @param {mongoose.Types.ObjectId} isActive - Indica si la universidad está activa
+ */
 UniversitySchema.statics.changeActiveStatus = async function (universityId, isActive) {
   return University.findOneAndUpdate({ _id: universityId }, { isActive })
 }
