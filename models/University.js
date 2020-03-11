@@ -75,7 +75,7 @@ UniversitySchema.statics.getInactiveUniversities = async () => University.find({
  * @param {mongoose.Types.ObjectId} isActive - Indica si la universidad está activa
  */
 UniversitySchema.statics.changeActiveStatus = async (universityId, isActive) => University
-  . findOneAndUpdate({ _id: universityId }, { isActive });
+  .findOneAndUpdate({ _id: universityId }, { isActive });
 
 // Exportar modelo
 const University = mongoose.model(config.schemasNames.university, UniversitySchema);
