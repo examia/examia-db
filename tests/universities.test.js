@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 // Importar dependencas
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 const stubs = require('./stubs');
 const config = require('./config');
 const setupDatabase = require('./setupDatabase');

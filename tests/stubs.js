@@ -7,6 +7,13 @@ function generateFakeUniversity() {
   };
 }
 
+function generateFakeField() {
+  return {
+    title: faker.random.arrayElement(['Área 1', 'Área 2', 'Área 3', 'Área 4']),
+  };
+}
+
 module.exports = {
   generateFakeUniversity,
+  generateFakeField,
 };
