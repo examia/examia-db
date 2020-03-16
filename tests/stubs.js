@@ -14,8 +14,9 @@ function generateFakeField(universityId) {
   };
 }
 
-function generateFakeExam() {
+function generateFakeExam(fieldId) {
   return {
+    fieldId,
     year: faker.random.number(2020),
   };
 }

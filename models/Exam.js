@@ -11,10 +11,15 @@ const config = require('./config');
  * @class ExamModel
  * @mixes {ExamSchema.statics}
  * @param {Object} - Objeto con todas las propiedades
+ * @property {mongoose.Types.ObjectId} fieldId - Id del área del examen
  * @property {number} year - Año del examen
  * @property {Array.<mongoose.Types.ObjectId>} questions - Preguntas del examen
  */
 const ExamSchema = new mongoose.Schema({
+  fieldId: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+  },
   year: {
     type: Number,
     required: true,
@@ -50,6 +55,12 @@ ExamSchema.statics.addSection = async (examId, sectionId) => {
   // Lanzar un error
   throw new errors.DuplicatedId(errorMessages.exam.duplicatedSectionId);
 };
+
+/**
+ * Obtiene los exámenes de una área
+ * @param {mongoose.Types.ObjectId} fieldId - Id de la área
+ */
+ExamSchema.statics.findByFieldId = (fieldId) => Exam.find({ fieldId });
 
 /**
  * Obtener exámenes por su año
