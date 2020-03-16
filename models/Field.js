@@ -37,13 +37,13 @@ FieldSchema.statics;
  * Obtiene las áreas activas de una universidad
  * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
  */
-FieldSchema.statics.getActiveFieldsByUniversityId = (universityId) => Field.find({ universityId, isActive: true });
+FieldSchema.statics.findActiveFieldsByUniversityId = (universityId) => Field.find({ universityId, isActive: true });
 
 /**
  * Obtiene las áreas inactivas de una universidad
  * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
  */
-FieldSchema.statics.getInactiveFieldsByUniversityId = (universityId) => Field.find({ universityId, isActive: false });
+FieldSchema.statics.findInactiveFieldsByUniversityId = (universityId) => Field.find({ universityId, isActive: false });
 
 /**
  *  Obtiene todas las áreas activas

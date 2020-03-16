@@ -51,12 +51,12 @@ describe('Áreas', () => {
   });
 
   test('Obtener áreas activas con el id de la universidad - 1', async () => {
-    const fields = await FieldModel.getActiveFieldsByUniversityId(createdUniversity._id);
+    const fields = await FieldModel.findActiveFieldsByUniversityId(createdUniversity._id);
     expect(fields.length).toEqual(1);
   });
 
   test('Obtener áreas inactivas con el id de la universidad - 0', async () => {
-    const fields = await FieldModel.getInactiveFieldsByUniversityId(createdUniversity._id);
+    const fields = await FieldModel.findInactiveFieldsByUniversityId(createdUniversity._id);
     expect(fields.length).toEqual(0);
   });
 
@@ -76,7 +76,7 @@ describe('Áreas', () => {
   });
 
   test('Obtener áreas activas con el id de la universidad - 0', async () => {
-    const fields = await FieldModel.getActiveFieldsByUniversityId(createdUniversity._id);
+    const fields = await FieldModel.findActiveFieldsByUniversityId(createdUniversity._id);
     expect(fields.length).toEqual(0);
   });
 
@@ -86,7 +86,7 @@ describe('Áreas', () => {
   });
 
   test('Obtener áreas inactivas con el id de la universidad - 1', async () => {
-    const fields = await FieldModel.getInactiveFieldsByUniversityId(createdUniversity._id);
+    const fields = await FieldModel.findInactiveFieldsByUniversityId(createdUniversity._id);
     expect(fields.length).toEqual(1);
   });
 });
