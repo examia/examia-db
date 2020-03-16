@@ -1,6 +1,6 @@
 // Importar dependencias
 const mongoose = require('mongoose');
-const errorMessages = require('../helper/errorMessages');
+const errorMessages = require('../errorHandling/errorMessages');
 
 // Importar configuración
 const config = require('./config');

@@ -4,17 +4,21 @@ const stubs = require('./stubs');
 const config = require('./config');
 const setupDatabase = require('./setupDatabase');
 const eraseCollections = require('./eraseCollections');
+const errorKeys = require('../errorHandling/errorKeys');
 
 describe('Universidades', () => {
   // Variables globales que se usarán para las pruebas
   let UniversityModel;
+  let FieldModel;
   let fakeUniversity;
   let createdUniversity;
+  let createdField;
 
   // Inicializar la base de datos antes de empezar las pruebas
   beforeAll(async () => {
     const database = await setupDatabase(config.databaseUrl);
     UniversityModel = database.UniversityModel;
+    FieldModel = database.FieldModel;
   });
 
   // Limpiar base de datos después de las pruebas
@@ -69,5 +73,27 @@ describe('Universidades', () => {
   test('Obtener universidades inactivas - 1', async () => {
     const universities = await UniversityModel.getInactiveUniversities();
     expect(universities.length).toEqual(1);
+  });
+
+  test('Agregar un área a una universidad - área no existente', async () => {
+    // Guardar área en la base de datos
+    createdField = new FieldModel(stubs.generateFakeField());
+    await createdField.save();
+
+    // Guardar área en la universidad
+    const updatedUniversity = await UniversityModel.addField(createdUniversity._id, createdField._id);
+
+    expect(Array.from(updatedUniversity.fields)).toEqual([createdField._id]);
+  });
+
+  test('Agregar un área a una universidad - área existente', async () => {
+    try {
+      // Guardar área en la universidad
+      const updatedUniversity = await UniversityModel.addField(createdUniversity._id, createdField._id);
+
+      expect(Array.from(updatedUniversity.fields)).toEqual([createdField._id]);
+    } catch (err) {
+      expect(err.name).toEqual(errorKeys.duplicatedId);
+    }
   });
 });

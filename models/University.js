@@ -1,7 +1,8 @@
 // Importar dependencias
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-const errorMessages = require('../helper/errorMessages');
+const errors = require('../errorHandling/errors');
+const errorMessages = require('../errorHandling/errorMessages');
 
 // Importar configuración
 const config = require('./config');
@@ -54,11 +55,11 @@ UniversitySchema.statics.addField = async (universityId, fieldId) => {
     // Actualizar campos 'fields' de la universidad
     return University.findOneAndUpdate({ _id: universityId }, {
       fields: fields.concat([fieldId]),
-    });
+    }, { new: true });
   }
 
   // Lanzar un error
-  throw new Error(errorMessages.university.duplicateField);
+  throw new errors.DuplicatedId(errorMessages.university.duplicatedFieldId);
 };
 
 /**
