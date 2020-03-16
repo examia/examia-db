@@ -1,6 +1,7 @@
 // Importar dependencias
 const mongoose = require('mongoose');
 const errorMessages = require('../errorHandling/errorMessages');
+const errors = require('../errorHandling/errors');
 
 // Importar configuración
 const config = require('./config');
@@ -41,7 +42,7 @@ FieldSchema.statics;
  */
 FieldSchema.statics.addExam = async (fieldId, examId) => {
   // Obtener área y sus exámenes
-  const field = await Field.findById(universityId);
+  const field = await Field.findById(fieldId);
   const { exams } = field;
 
   // Asegurarse de que el examen no está en la lista de exámenes
@@ -49,11 +50,11 @@ FieldSchema.statics.addExam = async (fieldId, examId) => {
     // Actualizar campo 'exams' del área
     return Field.findOneAndUpdate({ _id: fieldId }, {
       exams: exams.concat([examId]),
-    });
+    }, { new: true });
   }
 
   // Lanzar un error
-  throw new Error(errorMessages.field.duplicatedSection);
+  throw new errors.DuplicatedId(errorMessages.field.duplicatedSectionId.message);
 };
 
 /**
@@ -77,7 +78,7 @@ FieldSchema.statics.removeExam = async (fieldId, examId) => {
     // Actualizar campo 'exams' del área
     return Field.findOneAndUpdate({ _id: fieldId }, {
       exams,
-    });
+    }, { new: true });
   }
 
   // TODO: Modificar el manejo de errores

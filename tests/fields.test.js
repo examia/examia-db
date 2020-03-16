@@ -4,17 +4,21 @@ const stubs = require('./stubs');
 const config = require('./config');
 const setupDatabase = require('./setupDatabase');
 const eraseCollections = require('./eraseCollections');
+const errorKeys = require('../errorHandling/errorKeys');
 
 describe('Áreas', () => {
   // Variables globales que se usarán para las pruebas
   let FieldModel;
+  let ExamModel;
   let fakeField;
   let createdField;
+  let createdExam;
 
   // Inicializar la base de datos antes de empezar las pruebas
   beforeAll(async () => {
     const database = await setupDatabase(config.databaseUrl);
     FieldModel = database.FieldModel;
+    ExamModel = database.ExamModel;
   });
 
   // Limpiar base de datos después de las pruebas
@@ -60,5 +64,25 @@ describe('Áreas', () => {
   test('Obtener áreas inactivas - 1', async () => {
     const fields = await FieldModel.getInactiveFields();
     expect(fields.length).toEqual(1);
+  });
+
+  test('Agregar un examen a una área - examen no existente', async () => {
+    // Guardar examen en la base de datos
+    createdExam = new ExamModel(stubs.generateFakeExam());
+    await createdExam.save();
+
+    // Guardar examen en la área
+    const updatedField = await FieldModel.addExam(createdField._id, createdExam._id);
+
+    expect(Array.from(updatedField.exams)).toEqual([createdExam._id]);
+  });
+
+  test('Agregar un examen a una área - examen existente', async () => {
+    try {
+      // Guardar examen en la área
+      await FieldModel.addExam(createdField._id, createdExam._id);
+    } catch (err) {
+      expect(err.name).toEqual(errorKeys.duplicatedId);
+    }
   });
 });

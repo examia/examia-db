@@ -13,7 +13,14 @@ function generateFakeField() {
   };
 }
 
+function generateFakeExam() {
+  return {
+    year: faker.random.number(2020),
+  };
+}
+
 module.exports = {
   generateFakeUniversity,
   generateFakeField,
+  generateFakeExam,
 };
