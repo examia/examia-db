@@ -8,8 +8,8 @@ module.exports = {
     },
   },
   field: {
-    duplicatedSectionId: {
-      message: 'El id de la sección ya está en la área',
+    duplicatedExamId: {
+      message: 'El id del examen ya está en la área',
     },
   },
   exam: {

@@ -54,7 +54,7 @@ FieldSchema.statics.addExam = async (fieldId, examId) => {
   }
 
   // Lanzar un error
-  throw new errors.DuplicatedId(errorMessages.field.duplicatedSectionId.message);
+  throw new errors.DuplicatedId(errorMessages.field.duplicatedExamId.message);
 };
 
 /**
