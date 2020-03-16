@@ -11,12 +11,12 @@ describe('Áreas', () => {
   let UniversityModel;
   let fakeField;
   let createdField;
+  let createdUniversity
 
   // Inicializar la base de datos antes de empezar las pruebas
   beforeAll(async () => {
     const database = await setupDatabase(config.databaseUrl);
     FieldModel = database.FieldModel;
-    ExamModel = database.ExamModel;
     UniversityModel = database.UniversityModel;
   });
 
@@ -30,7 +30,7 @@ describe('Áreas', () => {
 
   test('Crear una área', async () => {
     // Generar una universidad
-    const createdUniversity = new UniversityModel(stubs.generateFakeUniversity());
+    createdUniversity = new UniversityModel(stubs.generateFakeUniversity());
     await createdUniversity.save();
 
     // Generar una área
@@ -41,13 +41,23 @@ describe('Áreas', () => {
     await createdField.save();
 
     expect(createdField.title).toEqual(fakeField.title);
-    expect(createdField.university_id).toEqual(createdUniversity._id);
+    expect(createdField.universityId).toEqual(createdUniversity._id);
     expect(createdField.isActive).toEqual(true);
   });
 
   test('Obtener áreas activas - 1', async () => {
     const fields = await FieldModel.getActiveFields();
     expect(fields.length).toEqual(1);
+  });
+
+  test('Obtener áreas activas con el id de la universidad - 1', async () => {
+    const fields = await FieldModel.getActiveFieldsByUniversityId(createdUniversity._id);
+    expect(fields.length).toEqual(1);
+  });
+
+  test('Obtener áreas inactivas con el id de la universidad - 0', async () => {
+    const fields = await FieldModel.getInactiveFieldsByUniversityId(createdUniversity._id);
+    expect(fields.length).toEqual(0);
   });
 
   test('Modificar el estado de actividad de una área', async () => {
@@ -65,8 +75,18 @@ describe('Áreas', () => {
     expect(fields.length).toEqual(0);
   });
 
+  test('Obtener áreas activas con el id de la universidad - 0', async () => {
+    const fields = await FieldModel.getActiveFieldsByUniversityId(createdUniversity._id);
+    expect(fields.length).toEqual(0);
+  });
+
   test('Obtener áreas inactivas - 1', async () => {
     const fields = await FieldModel.getInactiveFields();
+    expect(fields.length).toEqual(1);
+  });
+
+  test('Obtener áreas inactivas con el id de la universidad - 1', async () => {
+    const fields = await FieldModel.getInactiveFieldsByUniversityId(createdUniversity._id);
     expect(fields.length).toEqual(1);
   });
 });

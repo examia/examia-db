@@ -22,6 +22,7 @@ module.exports = {
     'no-underscore-dangle': 0,
     'o-await-in-loop': 0,
     'no-restricted-syntax': 0,
-    'no-await-in-loop': 0
+    'no-await-in-loop': 0,
+    'max-len': 110
   },
 };

@@ -14,7 +14,7 @@ const config = require('./config');
  * @property {boolean} isActive - Indica si la área está activa y puede ser usada
  */
 const FieldSchema = new mongoose.Schema({
-  university_id: {
+  universityId: {
     type: mongoose.Types.ObjectId,
     ref: config.schemasNames.university,
     required: true,
@@ -32,6 +32,18 @@ const FieldSchema = new mongoose.Schema({
 
 /** @mixin */
 FieldSchema.statics;
+
+/**
+ * Obtiene las áreas activas de una universidad
+ * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
+ */
+FieldSchema.statics.getActiveFieldsByUniversityId = (universityId) => Field.find({ universityId, isActive: true })
+
+/**
+ * Obtiene las áreas inactivas de una universidad
+ * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
+ */
+FieldSchema.statics.getInactiveFieldsByUniversityId = (universityId) => Field.find({ universityId, isActive: false });
 
 /**
  *  Obtiene todas las áreas activas
