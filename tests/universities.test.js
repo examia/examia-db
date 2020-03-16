@@ -81,7 +81,10 @@ describe('Universidades', () => {
     await createdField.save();
 
     // Guardar área en la universidad
-    const updatedUniversity = await UniversityModel.addField(createdUniversity._id, createdField._id);
+    const updatedUniversity = await UniversityModel.addField(
+      createdUniversity._id,
+      createdField._id,
+    );
 
     expect(Array.from(updatedUniversity.fields)).toEqual([createdField._id]);
   });
@@ -89,7 +92,10 @@ describe('Universidades', () => {
   test('Agregar un área a una universidad - área existente', async () => {
     try {
       // Guardar área en la universidad
-      const updatedUniversity = await UniversityModel.addField(createdUniversity._id, createdField._id);
+      const updatedUniversity = await UniversityModel.addField(
+        createdUniversity._id,
+        createdField._id,
+      );
 
       expect(Array.from(updatedUniversity.fields)).toEqual([createdField._id]);
     } catch (err) {
