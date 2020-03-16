@@ -1,5 +1,9 @@
 // Importar dependencias
 const mongoose = require('mongoose');
+const errorMessages = require('../errorHandling/errorMessages');
+const errors = require('../errorHandling/errors');
+
+// Importar configuración
 const config = require('./config');
 
 /**
@@ -9,22 +13,16 @@ const config = require('./config');
  * @param {Object} - Objeto con todas las propiedades
  * @property {number} year - Año del examen
  * @property {Array.<mongoose.Types.ObjectId>} questions - Preguntas del examen
- * @property {boolean} isActive - Indica si la universidad está activa y puede ser usada
  */
 const ExamSchema = new mongoose.Schema({
   year: {
     type: Number,
     required: true,
   },
-  questions: {
-    type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.question }],
+  sections: {
+    type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.examSection }],
     required: true,
     default: [],
-  },
-  isActive: {
-    type: Boolean,
-    required: true,
-    default: true,
   },
 }, { timestamps: true });
 
@@ -32,25 +30,25 @@ const ExamSchema = new mongoose.Schema({
 ExamSchema.statics;
 
 /**
- * Agrega una pregunta a un examen
+ * Agrega una sección a un examen
  * @param {mongoose.Types.ObjectId} examId - Id del examen
- * @param {mongoose.Types.ObjectId} questionId  - Id de la pregunta
+ * @param {mongoose.Types.ObjectId} sectionId  - Id de la sección del examen
  */
-ExamSchema.statics.addQuestion = async (examId, questionId) => {
-  // Obtener examen y sus preguntas
-  const exam = await Exam.findById(examId);
-  const { questions } = exam;
+ExamSchema.statics.addSection = async (examId, sectionId) => {
+  // Obtener examen y sus secciones
+  const examSection = await ExamSchema.findById(examId);
+  const { sections } = examSection;
 
-  // Asegurarse de que la pregunta no está en el examen
-  if (exam.questions.indexOf(questionId) === -1) {
-    // Actualizar campo 'questions' del examen
-    return exam.findOneAndUpdate({ _id: examId }, {
-      questions: questions.concat([questionId]),
-    });
+  // Asegurarse de que la sección no está en el examen
+  if (examSection.sections.indexOf(sectionId) === -1) {
+    // Actualizar campo 'sections' del examen
+    return ExamSchema.findOneAndUpdate({ _id: examId }, {
+      sections: sections.concat([sectionId]),
+    }, { new: true });
   }
 
-  // TODO: Modificar el manejo de errores
-  throw new Error('La pregunta ya está en el examen');
+  // Lanzar un error
+  throw new errors.DuplicatedId(errorMessages.exam.duplicatedSectionId);
 };
 
 /**
@@ -58,17 +56,6 @@ ExamSchema.statics.addQuestion = async (examId, questionId) => {
  * @param {number} year - Año del que se buscan exámenes
  */
 ExamSchema.statics.findByYear = async (year) => Exam.find({ year });
-
-/**
- *  Obtiene todos los exámenes activos
- */
-ExamSchema.statics.getActiveExams = async () => Exam.find({ isActive: true });
-
-/**
- *  Obtiene todos los exámens inactivos
- */
-ExamSchema.statics.getInactiveExams = async () => Exam.find({ isActive: false });
-
 
 // Exportar modelo
 const Exam = mongoose.model(config.schemasNames.exam, ExamSchema);

@@ -12,4 +12,9 @@ module.exports = {
       message: 'El id de la sección ya está en la área',
     },
   },
+  exam: {
+    duplicatedSectionId: {
+      message: 'El id de la sección ya está en el examen',
+    },
+  },
 };

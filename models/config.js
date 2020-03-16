@@ -8,6 +8,7 @@ module.exports = {
     field: 'Field',
     examSession: 'ExamSession',
     exam: 'Exam',
+    examSection: 'ExamSection',
     comment: 'Comment',
     answer: 'Answer',
   },
