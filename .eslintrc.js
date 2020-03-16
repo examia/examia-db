@@ -23,6 +23,6 @@ module.exports = {
     'o-await-in-loop': 0,
     'no-restricted-syntax': 0,
     'no-await-in-loop': 0,
-    'max-len': 110
+    'max-len': 120
   },
 };
