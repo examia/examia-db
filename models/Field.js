@@ -1,5 +1,8 @@
 // Importar dependencias
 const mongoose = require('mongoose');
+const errorMessages = require('../helper/errorMessages');
+
+// Importar configuración
 const config = require('./config');
 
 /**
@@ -49,8 +52,8 @@ FieldSchema.statics.addExam = async (fieldId, examId) => {
     });
   }
 
-  // TODO: Modificar el manejo de errores
-  throw new Error('El examen ya está en la área');
+  // Lanzar un error
+  throw new Error(errorMessages.field.duplicatedSection);
 };
 
 /**

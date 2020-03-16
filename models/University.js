@@ -1,6 +1,7 @@
 // Importar dependencias
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const errorMessages = require('../helper/errorMessages');
 
 // Importar configuración
 const config = require('./config');
@@ -43,7 +44,6 @@ UniversitySchema.plugin(uniqueValidator);
  * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
  * @param {mongoose.Types.ObjectId} fieldId  - Id del área
  */
-// eslint-disable-next-line consistent-return
 UniversitySchema.statics.addField = async (universityId, fieldId) => {
   // Obtener unviersidad y sus áreas
   const university = await University.findById(universityId);
@@ -56,7 +56,9 @@ UniversitySchema.statics.addField = async (universityId, fieldId) => {
       fields: fields.concat([fieldId]),
     });
   }
-  // TODO: Lanzar un error
+
+  // Lanzar un error
+  throw new Error(errorMessages.university.duplicateField);
 };
 
 /**
