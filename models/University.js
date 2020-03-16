@@ -1,8 +1,6 @@
 // Importar dependencias
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-const errors = require('../errorHandling/errors');
-const errorMessages = require('../errorHandling/errorMessages');
 
 // Importar configuración
 const config = require('./config');
@@ -13,7 +11,6 @@ const config = require('./config');
  * @mixes {UniversitySchema.statics}
  * @param {Object} - Objeto con todas las propiedades
  * @property {string} title - El nombre de la universidad
- * @property {Array.<mongoose.Types.ObjectId>} fields - Las áreas de la universidad
  * @property {boolean} isActive - Indica si la universidad está activa y puede ser usada
  */
 const UniversitySchema = new mongoose.Schema({
@@ -21,11 +18,6 @@ const UniversitySchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  fields: {
-    type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.field }],
-    required: true,
-    default: [],
   },
   isActive: {
     type: Boolean,
@@ -39,28 +31,6 @@ UniversitySchema.statics;
 
 // Configurar uniqueValidator para el Schema
 UniversitySchema.plugin(uniqueValidator);
-
-/**
- * Agrega una área a una universidad
- * @param {mongoose.Types.ObjectId} universityId - Id de la universidad
- * @param {mongoose.Types.ObjectId} fieldId  - Id del área
- */
-UniversitySchema.statics.addField = async (universityId, fieldId) => {
-  // Obtener unviersidad y sus áreas
-  const university = await University.findById(universityId);
-  const { fields } = university;
-
-  // Asegurarse de que no existe la área
-  if (university.fields.indexOf(fieldId) === -1) {
-    // Actualizar campos 'fields' de la universidad
-    return University.findOneAndUpdate({ _id: universityId }, {
-      fields: fields.concat([fieldId]),
-    }, { new: true });
-  }
-
-  // Lanzar un error
-  throw new errors.DuplicatedId(errorMessages.university.duplicatedFieldId);
-};
 
 /**
  *  Obtiene todas las universidades activas

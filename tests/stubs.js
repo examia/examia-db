@@ -7,8 +7,9 @@ function generateFakeUniversity() {
   };
 }
 
-function generateFakeField() {
+function generateFakeField(universityId) {
   return {
+    university_id: universityId,
     title: faker.random.arrayElement(['Área 1', 'Área 2', 'Área 3', 'Área 4']),
   };
 }
