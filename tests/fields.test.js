@@ -11,7 +11,7 @@ describe('Áreas', () => {
   let UniversityModel;
   let fakeField;
   let createdField;
-  let createdUniversity
+  let createdUniversity;
 
   // Inicializar la base de datos antes de empezar las pruebas
   beforeAll(async () => {
