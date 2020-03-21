@@ -4,6 +4,7 @@ const faker = require('faker');
 function generateFakeUniversity() {
   return {
     title: faker.random.arrayElement(['UNAM', 'Politécnico Nacional']),
+    imageUrl: faker.image.imageUrl(),
   };
 }
 

@@ -50,7 +50,6 @@ describe('Exámenes', () => {
     await createdExam.save();
 
     expect(createdExam.title).toEqual(fakeExam.title);
-    expect(Array.from(createdExam.sections)).toEqual([]);
   });
 
   test('Obtener exámenes de cierto año - 1', async () => {
