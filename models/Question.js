@@ -1,5 +1,7 @@
 // Importar dependencias
 const mongoose = require('mongoose');
+
+// Importar configuración
 const config = require('./config');
 
 /**
@@ -15,6 +17,7 @@ const config = require('./config');
 const QuestionSchema = new mongoose.Schema({
   examSectionId: {
     type: mongoose.Types.ObjectId,
+    ref: config.schemasNames.examSection,
     required: true,
   },
   position: {
