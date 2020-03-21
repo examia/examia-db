@@ -15,6 +15,7 @@ const config = require('./config');
 const ExamSchema = new mongoose.Schema({
   fieldId: {
     type: mongoose.Types.ObjectId,
+    ref: config.schemasNames.field,
     required: true,
   },
   year: {

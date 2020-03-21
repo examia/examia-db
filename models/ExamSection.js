@@ -15,6 +15,7 @@ const config = require('./config');
 const ExamSectionSchema = new mongoose.Schema({
   examId: {
     type: mongoose.Types.ObjectId,
+    ref: config.schemasNames.exam,
     required: true,
   },
   position: {
