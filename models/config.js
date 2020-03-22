@@ -11,5 +11,6 @@ module.exports = {
     examSection: 'ExamSection',
     comment: 'Comment',
     answer: 'Answer',
+    admin: 'Admin',
   },
 };

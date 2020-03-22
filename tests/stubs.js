@@ -49,6 +49,15 @@ function generateFakeAnswer(questionId) {
   };
 }
 
+function generatefakeAdmin() {
+  return {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+}
+
 module.exports = {
   generateFakeUniversity,
   generateFakeField,
@@ -56,4 +65,5 @@ module.exports = {
   generateFakeExamSection,
   generateFakeQuestion,
   generateFakeAnswer,
+  generatefakeAdmin,
 };

@@ -12,6 +12,7 @@ const QuestionModel = require('./models/Question');
 const SessionQuestionModel = require('./models/SessionQuestion');
 const UniversityModel = require('./models/University');
 const UserModel = require('./models/User');
+const AdminModel = require('./models/Admin');
 
 /**
  * Conectarse a la base de datos y obtener los modelos
@@ -41,5 +42,6 @@ module.exports = async function connect(databaseUrl) {
     SessionQuestionModel,
     UniversityModel,
     UserModel,
+    AdminModel,
   };
 };
