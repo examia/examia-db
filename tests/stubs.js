@@ -39,10 +39,21 @@ function generateFakeQuestion(examSectionId) {
   };
 }
 
+function generateFakeAnswer(questionId) {
+  return {
+    questionId,
+    text: faker.company.companyName(),
+    position: faker.random.number(5),
+    imageUrl: faker.image.imageUrl(),
+    isCorrect: faker.random.arrayElement([true, false]),
+  };
+}
+
 module.exports = {
   generateFakeUniversity,
   generateFakeField,
   generateFakeExam,
   generateFakeExamSection,
   generateFakeQuestion,
+  generateFakeAnswer,
 };
