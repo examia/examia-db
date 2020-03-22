@@ -7,6 +7,7 @@ const CommentModel = require('./models/Comment');
 const ExamModel = require('./models/Exam');
 const ExamSessionModel = require('./models/ExamSession');
 const FieldModel = require('./models/Field');
+const ExamSectionModel = require('./models/ExamSection');
 const QuestionModel = require('./models/Question');
 const SessionQuestionModel = require('./models/SessionQuestion');
 const UniversityModel = require('./models/University');
@@ -35,6 +36,7 @@ module.exports = async function connect(databaseUrl) {
     ExamModel,
     ExamSessionModel,
     FieldModel,
+    ExamSectionModel,
     QuestionModel,
     SessionQuestionModel,
     UniversityModel,

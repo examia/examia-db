@@ -22,8 +22,17 @@ function generateFakeExam(fieldId) {
   };
 }
 
+function generateFakeExamSection(examId) {
+  return {
+    examId,
+    title: faker.random.arrayElement(['Español', 'Física', 'Matemáticas', 'Biología']),
+    position: faker.random.number(5),
+  };
+}
+
 module.exports = {
   generateFakeUniversity,
   generateFakeField,
   generateFakeExam,
+  generateFakeExamSection,
 };

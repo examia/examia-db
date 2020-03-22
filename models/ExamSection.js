@@ -10,12 +10,17 @@ const config = require('./config');
  * @mixes {ExamSectionSchema.statics}
  * @param {Object} - Objeto con todas las propiedades
  * @property {mongoose.Types.ObjectId} examId - Id del examen
+ * @property {string} title - Título de la sección
  * @property {number} position - Posición de la sección den el examen
  */
 const ExamSectionSchema = new mongoose.Schema({
   examId: {
     type: mongoose.Types.ObjectId,
     ref: config.schemasNames.exam,
+    required: true,
+  },
+  title: {
+    type: String,
     required: true,
   },
   position: {
