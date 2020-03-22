@@ -5,7 +5,19 @@ const uniqueValidator = require('mongoose-unique-validator');
 // Importar configuración
 const config = require('./config');
 
-// Crear modelo User
+/**
+ * Genera el modelo User
+ * @class UserModel
+ * @mixes {Userchema.statics}
+ * @param {Object} - Objeto con todas las propiedades
+ * @property {string} firstName - El nombre del usuario
+ * @property {string} lastName - El apellido del usuario
+ * @property {string} email - Correo electrónico del usuario
+ * @property {boolean} isEmailVerified - Indica si el email del usuario está verificado
+ * @property {string} password - Contraseña del usuario encriptada
+ * @property {mongoose.Types.ObjectId} univeristy - Universidad del usuario
+ * @property {mongoose.Types.ObjectId} field - Área del usuario
+ */
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -38,25 +50,28 @@ const UserSchema = new mongoose.Schema({
     ref: config.schemasNames.field,
     required: true,
   },
-  exams: {
-    type: [{ type: mongoose.Types.ObjectId, ref: config.schemasNames.exam }],
-    required: true,
-    default: [],
-  },
 }, { timestamps: true });
 
 // Configurar uniqueValidator para el Schema
 UserSchema.plugin(uniqueValidator);
 
-// Obtener un usuario por su email
-UserSchema.statics.findByEmail = function (email) {
-  return User.findOne({ email });
-};
+/**
+ * Obtener un usuario por su correo eletrónico
+ * @param {string} email - Correo electrónico del usuario
+ */
+UserSchema.statics.findByEmail = (email) => User.findOne({ email });
 
-// Verificar si un usuario necesita confirmar su correo
-UserSchema.methods.requiresEmailVerification = function () {
-  return !this.isEmailVerified;
-};
+/**
+ * Obtiene los usuarios que requieren una verificación
+ */
+UserSchema.statics.requiresEmailVerification = () => User.find({ isEmailVerified });
+
+
+/**
+ * Actualiza el estado que indica si el email del usuario está verificado
+ * @param {mongoose.Types.ObjectId} fieldId - Id del usuario
+ */
+UserSchema.methods.verifyEmail = (userId) => User.findOneAndUpdate({ _id: userId }, { isEmailVerified: true });
 
 // Exportar modelo
 const User = mongoose.model(config.schemasNames.user, UserSchema);
