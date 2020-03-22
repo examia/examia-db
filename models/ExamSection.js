@@ -25,6 +25,7 @@ const ExamSectionSchema = new mongoose.Schema({
   },
   position: {
     type: Number,
+    min: 0,
     required: true,
   },
 }, { timestamps: true });

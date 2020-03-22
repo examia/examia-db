@@ -22,6 +22,7 @@ const QuestionSchema = new mongoose.Schema({
   },
   position: {
     type: Number,
+    min: 0,
     required: true,
   },
   text: {

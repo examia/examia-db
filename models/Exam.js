@@ -20,6 +20,7 @@ const ExamSchema = new mongoose.Schema({
   },
   year: {
     type: Number,
+    min: 0,
     required: true,
   },
 }, { timestamps: true });
